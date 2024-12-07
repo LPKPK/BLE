@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2024 STMicroelectronics.
+  * Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -34,6 +34,10 @@
 #include "blestack.h"
 #include "nvm.h"
 #include "simple_nvm_arbiter.h"
+#include "hrs.h"
+#include "hrs_app.h"
+#include "dis.h"
+#include "dis_app.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -127,7 +131,8 @@ typedef struct
   BleGlobalContext_t BleApplicationContext_legacy;
   APP_BLE_ConnStatus_t Device_Connection_Status;
   /* USER CODE BEGIN PTD_1*/
-
+  UTIL_TIMER_Object_t           TimerAdvLowPower_Id;
+  uint8_t connIntervalFlag;
   /* USER CODE END PTD_1 */
 }BleApplicationContext_t;
 
@@ -147,6 +152,12 @@ typedef struct
         (BLE_TOTAL_BUFFER_SIZE(CFG_BLE_NUM_LINK, MBLOCK_COUNT))
 
 /* USER CODE BEGIN PD */
+#define ADV_TIMEOUT_MS                 (60 * 1000)
+
+/* ADV_LP_REQ_TASK related defines */
+#define ADV_LP_REQ_TASK_STACK_SIZE    (1024)
+#define ADV_LP_REQ_TASK_PRIO          (15)
+#define ADV_LP_REQ_TASK_PREEM_TRES    (0)
 
 /* USER CODE END PD */
 
@@ -169,8 +180,10 @@ static const uint8_t a_BLE_CfgIrValue[16] = CFG_BLE_IR;
 /* Encryption root key used to derive LTK(Legacy) and CSRK */
 static const uint8_t a_BLE_CfgErValue[16] = CFG_BLE_ER;
 static BleApplicationContext_t bleAppContext;
+HRS_APP_ConnHandleNotEvt_t HRSHandleNotification;
+DIS_APP_ConnHandleNotEvt_t DISHandleNotification;
 
-static char a_GapDeviceName[] = {  'S', 'T', 'M', '3', '2', 'W', 'B', 'A' }; /* Gap Device Name */
+static char a_GapDeviceName[] = {  'H', 'e', 'a', 'r', 't', ' ', 'R', 'a', 't', 'e', ' ', 'S', 'e', 'n', 's', 'o', 'r' }; /* Gap Device Name */
 
 /* Advertising Data */
 uint8_t a_AdvData[27] =
@@ -203,6 +216,10 @@ TX_SEMAPHORE          GapProcCompleteSemaphore;
 
 /* USER CODE BEGIN GV */
 
+/* ADV_LP_REQ_TASK related resources */
+TX_THREAD ADV_LP_REQ_Thread;
+TX_SEMAPHORE ADV_LP_REQ_Thread_Sem;
+
 /* USER CODE END GV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -211,12 +228,17 @@ static void Ble_UserEvtRx(void);
 static void BLE_ResumeFlowProcessCallback(void);
 static void Ble_Hci_Gap_Gatt_Init(void);
 static const uint8_t* BleGetBdAddress(void);
+static void gap_cmd_resp_wait(void);
+static void gap_cmd_resp_release(void);
 static void BLE_NvmCallback (SNVMA_Callback_Status_t);
 static uint8_t HOST_BLE_Init(void);
 static void BLE_HOST_Task_Entry(ULONG lArgument);
 static void HciAsyncEvt_Task_Entry(ULONG lArgument);
 /* USER CODE BEGIN PFP */
-
+static void fill_advData(uint8_t *p_adv_data, uint8_t tab_size, const uint8_t*p_bd_addr);
+static void APP_BLE_AdvLowPower_Entry(unsigned long thread_input);
+static void APP_BLE_AdvLowPower_timCB(void *arg);
+static void APP_BLE_AdvLowPower(void);
 /* USER CODE END PFP */
 
 /* External variables --------------------------------------------------------*/
@@ -312,9 +334,57 @@ void APP_BLE_Init(void)
     /* Initialization of the BLE Services */
     SVCCTL_Init();
 
+    /* Initialization of the BLE App Context */
+    bleAppContext.Device_Connection_Status = APP_BLE_IDLE;
+    bleAppContext.BleApplicationContext_legacy.connectionHandle = 0xFFFF;
+
+    /* From here, all initialization are BLE application specific */
+
+    /* USER CODE BEGIN APP_BLE_Init_4 */
+
+    /* USER CODE END APP_BLE_Init_4 */
+
+    /* Initialize Services and Characteristics. */
+    LOG_INFO_APP("\n");
+    LOG_INFO_APP("Services and Characteristics creation\n");
+    HRS_APP_Init();
+    DIS_APP_Init();
+    LOG_INFO_APP("End of Services and Characteristics creation\n");
+    LOG_INFO_APP("\n");
+
+    /* USER CODE BEGIN APP_BLE_Init_3 */
+    /* Start to Advertise to accept a connection */
+    APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_ADVERTISE_START_FAST);
+
+    if (tx_byte_allocate(pBytePool, (void **) &pStack, ADV_LP_REQ_TASK_STACK_SIZE,TX_NO_WAIT) != TX_SUCCESS)
+    {
+      Error_Handler();
+    }
+    if (tx_semaphore_create(&ADV_LP_REQ_Thread_Sem, "ADV_LP_REQ_Thread_Sem", 0)!= TX_SUCCESS )
+    {
+      Error_Handler();
+    }
+    if (tx_thread_create(&ADV_LP_REQ_Thread, "ADV_LP_REQ_Thread", APP_BLE_AdvLowPower_Entry, 0,
+                           pStack, ADV_LP_REQ_TASK_STACK_SIZE,
+                           ADV_LP_REQ_TASK_PRIO, ADV_LP_REQ_TASK_PREEM_TRES,
+                           TX_NO_TIME_SLICE, TX_AUTO_START) != TX_SUCCESS)
+    {
+      Error_Handler();
+    }
+
+    /**
+    * Create timer to enter Low Power Advertising
+    */
+    UTIL_TIMER_Create(&(bleAppContext.TimerAdvLowPower_Id),
+                      ADV_TIMEOUT_MS,
+                      UTIL_TIMER_ONESHOT,
+                      &APP_BLE_AdvLowPower_timCB, 0);
+    UTIL_TIMER_Start(&(bleAppContext.TimerAdvLowPower_Id));
+    /* USER CODE END APP_BLE_Init_3 */
+
   }
   /* USER CODE BEGIN APP_BLE_Init_2 */
-
+  bleAppContext.connIntervalFlag = 0;
   /* USER CODE END APP_BLE_Init_2 */
 
   return;
@@ -352,12 +422,20 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
 
         /* USER CODE END EVT_DISCONN_COMPLETE_2 */
       }
+      gap_cmd_resp_release();
 
       /* USER CODE BEGIN EVT_DISCONN_COMPLETE_1 */
 
       /* USER CODE END EVT_DISCONN_COMPLETE_1 */
+      HRSHandleNotification.EvtOpcode = HRS_DISCON_HANDLE_EVT;
+      DISHandleNotification.EvtOpcode = DIS_DISCON_HANDLE_EVT;
+      HRSHandleNotification.ConnectionHandle = p_disconnection_complete_event->Connection_Handle;
+      DISHandleNotification.ConnectionHandle = p_disconnection_complete_event->Connection_Handle;
+      HRS_APP_EvtRx(&HRSHandleNotification);
+      DIS_APP_EvtRx(&DISHandleNotification);
       /* USER CODE BEGIN EVT_DISCONN_COMPLETE */
-
+      APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_ADVERTISE_START_FAST);
+      UTIL_TIMER_StartWithPeriod(&bleAppContext.TimerAdvLowPower_Id, ADV_TIMEOUT_MS);
       /* USER CODE END EVT_DISCONN_COMPLETE */
       break; /* HCI_DISCONNECTION_COMPLETE_EVT_CODE */
     }
@@ -395,6 +473,8 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
           hci_le_phy_update_complete_event_rp0 *p_le_phy_update_complete;
           p_le_phy_update_complete = (hci_le_phy_update_complete_event_rp0*)p_meta_evt->data;
           UNUSED(p_le_phy_update_complete);
+
+          gap_cmd_resp_release();
 
           /* USER CODE BEGIN EVT_LE_PHY_UPDATE_COMPLETE */
 
@@ -435,6 +515,12 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
           }
           bleAppContext.BleApplicationContext_legacy.connectionHandle = p_enhanced_conn_complete->Connection_Handle;
 
+          HRSHandleNotification.EvtOpcode = HRS_CONN_HANDLE_EVT;
+          DISHandleNotification.EvtOpcode = DIS_CONN_HANDLE_EVT;
+          HRSHandleNotification.ConnectionHandle = p_enhanced_conn_complete->Connection_Handle;
+          DISHandleNotification.ConnectionHandle = p_enhanced_conn_complete->Connection_Handle;
+          HRS_APP_EvtRx(&HRSHandleNotification);
+          DIS_APP_EvtRx(&DISHandleNotification);
           /* USER CODE BEGIN HCI_EVT_LE_ENHANCED_CONN_COMPLETE */
 
           /* USER CODE END HCI_EVT_LE_ENHANCED_CONN_COMPLETE */
@@ -474,8 +560,14 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
           }
           bleAppContext.BleApplicationContext_legacy.connectionHandle = p_conn_complete->Connection_Handle;
 
+          HRSHandleNotification.EvtOpcode = HRS_CONN_HANDLE_EVT;
+          DISHandleNotification.EvtOpcode = DIS_CONN_HANDLE_EVT;
+          HRSHandleNotification.ConnectionHandle = p_conn_complete->Connection_Handle;
+          DISHandleNotification.ConnectionHandle = p_conn_complete->Connection_Handle;
+          HRS_APP_EvtRx(&HRSHandleNotification);
+          DIS_APP_EvtRx(&DISHandleNotification);
           /* USER CODE BEGIN HCI_EVT_LE_CONN_COMPLETE */
-
+          UTIL_TIMER_Stop(&(bleAppContext.TimerAdvLowPower_Id));
           /* USER CODE END HCI_EVT_LE_CONN_COMPLETE */
           break; /* HCI_LE_CONNECTION_COMPLETE_SUBEVT_CODE */
         }
@@ -674,6 +766,312 @@ SVCCTL_UserEvtFlowStatus_t SVCCTL_App_Notification(void *p_Pckt)
 APP_BLE_ConnStatus_t APP_BLE_Get_Server_Connection_Status(void)
 {
   return bleAppContext.Device_Connection_Status;
+}
+
+void APP_BLE_Procedure_Gap_General(ProcGapGeneralId_t ProcGapGeneralId)
+{
+  tBleStatus status;
+
+  /* USER CODE BEGIN Procedure_Gap_General_1 */
+
+  /* USER CODE END Procedure_Gap_General_1 */
+
+  switch(ProcGapGeneralId)
+  {
+    case PROC_GAP_GEN_PHY_TOGGLE:
+    {
+      uint8_t phy_tx = 0U, phy_rx = 0U;
+
+      tx_mutex_get(&LinkLayerMutex, TX_WAIT_FOREVER);
+      status = hci_le_read_phy(bleAppContext.BleApplicationContext_legacy.connectionHandle, &phy_tx, &phy_rx);
+      tx_mutex_put(&LinkLayerMutex);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("hci_le_read_phy failure: reason=0x%02X\n",status);
+      }
+      else
+      {
+        LOG_INFO_APP("==>> hci_le_read_phy - Success\n");
+        LOG_INFO_APP("==>> PHY Param  TX= %d, RX= %d\n", phy_tx, phy_rx);
+        if ((phy_tx == HCI_TX_PHY_LE_2M) && (phy_rx == HCI_RX_PHY_LE_2M))
+        {
+          LOG_INFO_APP("==>> hci_le_set_phy PHY Param  TX= %d, RX= %d - ", HCI_TX_PHY_LE_1M, HCI_RX_PHY_LE_1M);
+          status = hci_le_set_phy(bleAppContext.BleApplicationContext_legacy.connectionHandle, 0, HCI_TX_PHYS_LE_1M_PREF, HCI_RX_PHYS_LE_1M_PREF, 0);
+          if (status != BLE_STATUS_SUCCESS)
+          {
+            LOG_INFO_APP("Fail\n");
+          }
+          else
+          {
+            LOG_INFO_APP("Success\n");
+            gap_cmd_resp_wait();/* waiting for HCI_LE_PHY_UPDATE_COMPLETE_SUBEVT_CODE */
+          }
+        }
+        else
+        {
+          LOG_INFO_APP("==>> hci_le_set_phy PHY Param  TX= %d, RX= %d - ", HCI_TX_PHYS_LE_2M_PREF, HCI_RX_PHYS_LE_2M_PREF);
+          status = hci_le_set_phy(bleAppContext.BleApplicationContext_legacy.connectionHandle, 0, HCI_TX_PHYS_LE_2M_PREF, HCI_RX_PHYS_LE_2M_PREF, 0);
+          if (status != BLE_STATUS_SUCCESS)
+          {
+            LOG_INFO_APP("Fail\n");
+          }
+          else
+          {
+            LOG_INFO_APP("Success\n");
+            gap_cmd_resp_wait();/* waiting for HCI_LE_PHY_UPDATE_COMPLETE_SUBEVT_CODE */
+          }
+        }
+      }
+      break;
+    }/* PROC_GAP_GEN_PHY_TOGGLE */
+    case PROC_GAP_GEN_CONN_TERMINATE:
+    {
+      status = aci_gap_terminate(bleAppContext.BleApplicationContext_legacy.connectionHandle, HCI_REMOTE_USER_TERMINATED_CONNECTION_ERR_CODE);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+         LOG_INFO_APP("aci_gap_terminate failure: reason=0x%02X\n", status);
+      }
+      else
+      {
+        LOG_INFO_APP("==>> aci_gap_terminate : Success\n");
+      }
+      gap_cmd_resp_wait();/* waiting for HCI_DISCONNECTION_COMPLETE_EVT_CODE */
+      break;
+    }/* PROC_GAP_GEN_CONN_TERMINATE */
+    case PROC_GATT_EXCHANGE_CONFIG:
+    {
+      status = aci_gatt_exchange_config(bleAppContext.BleApplicationContext_legacy.connectionHandle);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("aci_gatt_exchange_config failure: reason=0x%02X\n", status);
+      }
+      else
+      {
+        LOG_INFO_APP("==>> aci_gatt_exchange_config : Success\n");
+      }
+      break;
+    }
+    /* USER CODE BEGIN GAP_GENERAL */
+
+    /* USER CODE END GAP_GENERAL */
+    default:
+      break;
+  }
+
+  /* USER CODE BEGIN Procedure_Gap_General_2 */
+
+  /* USER CODE END Procedure_Gap_General_2 */
+  return;
+}
+
+void APP_BLE_Procedure_Gap_Peripheral(ProcGapPeripheralId_t ProcGapPeripheralId)
+{
+  tBleStatus status;
+  uint32_t paramA = 0U;
+  uint32_t paramB = 0U;
+  uint32_t paramC = 0U;
+  uint32_t paramD = 0U;
+
+  /* USER CODE BEGIN Procedure_Gap_Peripheral_1 */
+
+  /* USER CODE END Procedure_Gap_Peripheral_1 */
+
+  /* First set parameters before calling ACI APIs, only if needed */
+  switch(ProcGapPeripheralId)
+  {
+    case PROC_GAP_PERIPH_ADVERTISE_START_FAST:
+    {
+      paramA = ADV_INTERVAL_MIN;
+      paramB = ADV_INTERVAL_MAX;
+      paramC = APP_BLE_ADV_FAST;
+      paramD = ADV_IND;
+
+      break;
+    }
+    case PROC_GAP_PERIPH_ADVERTISE_NON_CONN_START_FAST:
+    {
+      paramA = ADV_INTERVAL_MIN;
+      paramB = ADV_INTERVAL_MAX;
+      paramC = APP_BLE_ADV_NON_CONN_FAST;
+      paramD = ADV_NONCONN_IND;
+
+      break;
+    }
+    case PROC_GAP_PERIPH_ADVERTISE_START_LP:
+    {
+      paramA = ADV_LP_INTERVAL_MIN;
+      paramB = ADV_LP_INTERVAL_MAX;
+      paramC = APP_BLE_ADV_LP;
+      paramD = ADV_IND;
+
+      break;
+    }
+    case PROC_GAP_PERIPH_ADVERTISE_NON_CONN_START_LP:
+    {
+      paramA = ADV_LP_INTERVAL_MIN;
+      paramB = ADV_LP_INTERVAL_MAX;
+      paramC = APP_BLE_ADV_NON_CONN_LP;
+      paramD = ADV_NONCONN_IND;
+
+      break;
+    }
+    case PROC_GAP_PERIPH_ADVERTISE_STOP:
+    {
+      paramC = APP_BLE_IDLE;
+
+      break;
+    }/* PROC_GAP_PERIPH_ADVERTISE_STOP */
+    case PROC_GAP_PERIPH_CONN_PARAM_UPDATE:
+    {
+      paramA = CONN_INT_MS(1000);
+      paramB = CONN_INT_MS(1000);
+      paramC = 0x0000;
+      paramD = 0x01F4;
+
+      /* USER CODE BEGIN CONN_PARAM_UPDATE */
+      if (bleAppContext.connIntervalFlag != 0)
+      {
+        bleAppContext.connIntervalFlag = 0;
+        paramA = CONN_INT_MS(50);
+        paramB = CONN_INT_MS(50);
+      }
+      else
+      {
+        bleAppContext.connIntervalFlag = 1;
+        paramA = CONN_INT_MS(1000);
+        paramB = CONN_INT_MS(1000);
+      }
+      /* USER CODE END CONN_PARAM_UPDATE */
+      break;
+    }/* PROC_GAP_PERIPH_CONN_PARAM_UPDATE */
+    /* USER CODE BEGIN PARAM_UPDATE_1 */
+
+    /* USER CODE END PARAM_UPDATE_1 */
+    default:
+      break;
+  }
+
+  /* USER CODE BEGIN Procedure_Gap_Peripheral_2 */
+
+  /* USER CODE END Procedure_Gap_Peripheral_2 */
+
+  /* Call ACI APIs */
+  switch(ProcGapPeripheralId)
+  {
+    case PROC_GAP_PERIPH_ADVERTISE_START_FAST:
+    case PROC_GAP_PERIPH_ADVERTISE_START_LP:
+    case PROC_GAP_PERIPH_ADVERTISE_NON_CONN_START_FAST:
+    case PROC_GAP_PERIPH_ADVERTISE_NON_CONN_START_LP:
+    {
+      /* Start Advertising */
+      status = aci_gap_set_discoverable(paramD,
+                                        paramA,
+                                        paramB,
+                                        CFG_BD_ADDRESS_TYPE,
+                                        ADV_FILTER,
+                                        0, 0, 0, 0, 0, 0);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("==>> aci_gap_set_discoverable - fail, result: 0x%02X\n", status);
+      }
+      else
+      {
+        bleAppContext.Device_Connection_Status = (APP_BLE_ConnStatus_t)paramC;
+        LOG_INFO_APP("==>> aci_gap_set_discoverable - Success\n");
+      }
+
+      status = aci_gap_delete_ad_type(AD_TYPE_TX_POWER_LEVEL);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("==>> delete tx power level - fail, result: 0x%02X\n", status);
+      }
+
+      /* Update Advertising data */
+      uint8_t *adv_data_p;
+      uint8_t adv_data_len;
+
+      adv_data_p = &a_AdvData[0];
+      adv_data_len = sizeof(a_AdvData);
+      /* USER CODE BEGIN ADV_DATA_UPDATE_1 */
+
+      /* USER CODE END ADV_DATA_UPDATE_1 */
+      status = aci_gap_update_adv_data(adv_data_len, adv_data_p);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("==>> Start Advertising Failed, result: 0x%02X\n", status);
+      }
+      else
+      {
+        LOG_INFO_APP("==>> Success: Start Advertising\n");
+      }
+      break;
+    }
+    case PROC_GAP_PERIPH_ADVERTISE_STOP:
+    {
+      status = aci_gap_set_non_discoverable();
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("aci_gap_set_non_discoverable - fail, result: 0x%02X\n",status);
+      }
+      else
+      {
+        bleAppContext.Device_Connection_Status = (APP_BLE_ConnStatus_t)paramC;
+        LOG_INFO_APP("==>> aci_gap_set_non_discoverable - Success\n");
+      }
+      break;
+    }/* PROC_GAP_PERIPH_ADVERTISE_STOP */
+    case PROC_GAP_PERIPH_ADVERTISE_DATA_UPDATE:
+    {
+      uint8_t *adv_data_p;
+      uint8_t adv_data_len;
+
+      adv_data_p = &a_AdvData[0];
+      adv_data_len = sizeof(a_AdvData);
+      /* USER CODE BEGIN ADV_DATA_UPDATE_2 */
+
+      /* USER CODE END ADV_DATA_UPDATE_2 */
+      status = aci_gap_update_adv_data(adv_data_len, adv_data_p);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("aci_gap_update_adv_data - fail, result: 0x%02X\n",status);
+      }
+      else
+      {
+        LOG_INFO_APP("==>> aci_gap_update_adv_data - Success\n");
+      }
+
+      break;
+    }/* PROC_GAP_PERIPH_ADVERTISE_DATA_UPDATE */
+    case PROC_GAP_PERIPH_CONN_PARAM_UPDATE:
+    {
+       status = aci_l2cap_connection_parameter_update_req(
+                                                       bleAppContext.BleApplicationContext_legacy.connectionHandle,
+                                                       paramA,
+                                                       paramB,
+                                                       paramC,
+                                                       paramD);
+      if (status != BLE_STATUS_SUCCESS)
+      {
+        LOG_INFO_APP("aci_l2cap_connection_parameter_update_req - fail, result: 0x%02X\n",status);
+      }
+      else
+      {
+        LOG_INFO_APP("==>> aci_l2cap_connection_parameter_update_req - Success\n");
+      }
+
+      break;
+    }/* PROC_GAP_PERIPH_CONN_PARAM_UPDATE */
+    /* USER CODE BEGIN ACI_CALL */
+
+    /* USER CODE END ACI_CALL */
+    default:
+      break;
+  }
+
+  /* USER CODE BEGIN Procedure_Gap_Peripheral_3 */
+
+  /* USER CODE END Procedure_Gap_Peripheral_3 */
+  return;
 }
 
 /* USER CODE BEGIN FD*/
@@ -883,7 +1281,7 @@ static void Ble_Hci_Gap_Gatt_Init(void)
   bleAppContext.BleApplicationContext_legacy.bleSecurityParam.Fixed_Pin             = CFG_FIXED_PIN;
   bleAppContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode          = CFG_BONDING_MODE;
   /* USER CODE BEGIN Ble_Hci_Gap_Gatt_Init_1*/
-
+  fill_advData(&a_AdvData[0], sizeof(a_AdvData), (uint8_t*) p_bd_addr);
   /* USER CODE END Ble_Hci_Gap_Gatt_Init_1*/
 
   ret = aci_gap_set_authentication_requirement(bleAppContext.BleApplicationContext_legacy.bleSecurityParam.bonding_mode,
@@ -1041,6 +1439,18 @@ static void BleStack_Process_BG(void)
   }
 }
 
+static void gap_cmd_resp_release(void)
+{
+  tx_semaphore_put(&GapProcCompleteSemaphore);
+  return;
+}
+
+static void gap_cmd_resp_wait(void)
+{
+  tx_semaphore_get(&GapProcCompleteSemaphore, TX_WAIT_FOREVER);
+  return;
+}
+
 /**
   * @brief  Notify the LL to resume the flow process
   * @param  None
@@ -1068,6 +1478,108 @@ static void BLE_NvmCallback (SNVMA_Callback_Status_t CbkStatus)
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTION */
 
+static void fill_advData(uint8_t *p_adv_data, uint8_t tab_size, const uint8_t* p_bd_addr)
+{
+  uint16_t i =0;
+  uint8_t bd_addr_1, bd_addr_0;
+  uint8_t ad_length, ad_type;
+
+  while(i < tab_size)
+  {
+    ad_length = p_adv_data[i];
+    ad_type = p_adv_data[i + 1];
+
+    switch (ad_type)
+    {
+    case AD_TYPE_FLAGS:
+      break;
+    case AD_TYPE_TX_POWER_LEVEL:
+      break;
+    case AD_TYPE_COMPLETE_LOCAL_NAME:
+      {
+        if((p_adv_data[i + ad_length] == 'X') && (p_adv_data[i + ad_length - 1] == 'X'))
+        {
+          bd_addr_1 = ((p_bd_addr[0] & 0xF0)>>4);
+          bd_addr_0 = (p_bd_addr[0] & 0xF);
+
+          /* Convert hex value into ascii */
+          if(bd_addr_1 > 0x09)
+          {
+            p_adv_data[i + ad_length - 1] = bd_addr_1 + '7';
+          }
+          else
+          {
+            p_adv_data[i + ad_length - 1] = bd_addr_1 + '0';
+          }
+
+          if(bd_addr_0 > 0x09)
+          {
+            p_adv_data[i + ad_length] = bd_addr_0 + '7';
+          }
+          else
+          {
+            p_adv_data[i + ad_length] = bd_addr_0 + '0';
+          }
+        }
+        break;
+      }
+    case AD_TYPE_MANUFACTURER_SPECIFIC_DATA:
+      {
+        p_adv_data[i+2] = ST_MANUF_ID;
+        p_adv_data[i+3] = 0x00;
+        p_adv_data[i+4] = BLUESTSDK_V2; /* blueST SDK version */
+        p_adv_data[i+5] = BOARD_ID_NUCLEO_WBA5X; /* Board ID */
+        p_adv_data[i+6] = FW_ID_HEART_RATE; /* FW ID */
+        p_adv_data[i+7] = 0x00; /* FW data 1 */
+        p_adv_data[i+8] = 0x00; /* FW data 2 */
+        p_adv_data[i+9] = 0x00; /* FW data 3 */
+        p_adv_data[i+10] = p_bd_addr[5]; /* MSB BD address */
+        p_adv_data[i+11] = p_bd_addr[4];
+        p_adv_data[i+12] = p_bd_addr[3];
+        p_adv_data[i+13] = p_bd_addr[2];
+        p_adv_data[i+14] = p_bd_addr[1];
+        p_adv_data[i+15] = p_bd_addr[0]; /* LSB BD address */
+        break;
+      }
+    default:
+      break;
+    }
+    i += ad_length + 1; /* increment the iterator to go on next element*/
+  }
+}
+
+static void APP_BLE_AdvLowPower_timCB(void *arg)
+{
+  /**
+   * The code shall be executed in the background as aci command may be sent
+   * The background is the only place where the application can make sure a new aci command
+   * is not sent if there is a pending one
+   */
+  tx_semaphore_put(&ADV_LP_REQ_Thread_Sem);
+
+  return;
+}
+
+void APP_BLE_AdvLowPower_Entry(unsigned long thread_input)
+{
+  (void)(thread_input);
+
+  while(1)
+  {
+    tx_semaphore_get(&ADV_LP_REQ_Thread_Sem, TX_WAIT_FOREVER);
+    tx_mutex_get(&LinkLayerMutex, TX_WAIT_FOREVER);
+    APP_BLE_AdvLowPower();
+    tx_mutex_put(&LinkLayerMutex);
+    tx_thread_relinquish();
+  }
+}
+
+static void APP_BLE_AdvLowPower(void)
+{
+  UTIL_TIMER_Stop(&(bleAppContext.TimerAdvLowPower_Id));
+  APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_ADVERTISE_STOP);
+  APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_ADVERTISE_START_LP);
+}
 /* USER CODE END FD_LOCAL_FUNCTION */
 
 /*************************************************************
@@ -1152,5 +1664,73 @@ void NVMCB_Store( const uint32_t* ptr, uint32_t size )
 }
 
 /* USER CODE BEGIN FD_WRAP_FUNCTIONS */
+#if (CFG_BUTTON_SUPPORTED == 1)
+void APPE_Button1Action(void)
+{
+  if (bleAppContext.Device_Connection_Status != APP_BLE_CONNECTED_SERVER)
+  {
+    /* Relaunch fast advertising */
+    if (bleAppContext.Device_Connection_Status != APP_BLE_IDLE)
+    {
+      APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_ADVERTISE_STOP);
+    }
+    APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_ADVERTISE_START_FAST);
+    UTIL_TIMER_StartWithPeriod(&bleAppContext.TimerAdvLowPower_Id, ADV_TIMEOUT_MS);
+  }
+  else
+  {
+    APP_BLE_Procedure_Gap_General(PROC_GAP_GEN_PHY_TOGGLE);
+  }
 
+  return;
+}
+
+void APPE_Button2Action(void)
+{
+  tBleStatus ret;
+
+  if (bleAppContext.Device_Connection_Status != APP_BLE_CONNECTED_SERVER)
+  {
+    ret = aci_gap_clear_security_db();
+    if (ret != BLE_STATUS_SUCCESS)
+    {
+      LOG_INFO_APP("==>> aci_gap_clear_security_db - Fail, result: 0x%02X\n", ret);
+    }
+    else
+    {
+      LOG_INFO_APP("==>> aci_gap_clear_security_db - Success\n");
+    }
+  }
+  else
+  {
+    /* Security Request */
+    ret = aci_gap_slave_security_req(bleAppContext.BleApplicationContext_legacy.connectionHandle);
+
+    if (ret != BLE_STATUS_SUCCESS)
+    {
+      LOG_INFO_APP("==>> aci_gap_slave_security_req() Fail , result: 0x%02X\n", ret);
+    }
+    else
+    {
+      LOG_INFO_APP("===>> aci_gap_slave_security_req - Success\n");
+    }
+  }
+
+  return;
+}
+
+void APPE_Button3Action(void)
+{
+  if (bleAppContext.Device_Connection_Status != APP_BLE_CONNECTED_SERVER)
+  {
+
+  }
+  else
+  {
+    APP_BLE_Procedure_Gap_Peripheral(PROC_GAP_PERIPH_CONN_PARAM_UPDATE);
+  }
+
+  return;
+}
+#endif
 /* USER CODE END FD_WRAP_FUNCTIONS */
