@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2024 STMicroelectronics.
+  * Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -56,18 +56,46 @@
 
 /* Private includes -----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stm32wbaxx_nucleo.h"
 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 
 /* USER CODE BEGIN PTD */
+#if (CFG_BUTTON_SUPPORTED == 1)
+typedef struct
+{
+  Button_TypeDef      button;
+  UTIL_TIMER_Object_t longTimerId;
+  uint8_t             longPressed;
+} ButtonDesc_t;
+#endif /* (CFG_BUTTON_SUPPORTED == 1) */
 
 /* USER CODE END PTD */
 
 /* Private defines -----------------------------------------------------------*/
 
 /* USER CODE BEGIN PD */
+#if (CFG_BUTTON_SUPPORTED == 1)
+#define BUTTON_LONG_PRESS_THRESHOLD_MS   (500u)
+#define BUTTON_NB_MAX                    (B3 + 1u)
+#endif
+
+/* PB1_BUTTON_PUSHED_TASK related defines */
+#define PB1_BUTTON_PUSHED_TASK_STACK_SIZE    (1024)
+#define PB1_BUTTON_PUSHED_TASK_PRIO          (15)
+#define PB1_BUTTON_PUSHED_TASK_PREEM_TRES    (0)
+
+/* PB2_BUTTON_PUSHED_TASK related defines */
+#define PB2_BUTTON_PUSHED_TASK_STACK_SIZE    (1024)
+#define PB2_BUTTON_PUSHED_TASK_PRIO          (15)
+#define PB2_BUTTON_PUSHED_TASK_PREEM_TRES    (0)
+
+/* PB3_BUTTON_PUSHED_TASK related defines */
+#define PB3_BUTTON_PUSHED_TASK_STACK_SIZE    (1024)
+#define PB3_BUTTON_PUSHED_TASK_PRIO          (15)
+#define PB3_BUTTON_PUSHED_TASK_PREEM_TRES    (0)
 
 /* USER CODE END PD */
 
@@ -127,6 +155,22 @@ static TX_THREAD      BpkaTaskHandle;
 static TX_SEMAPHORE   BpkaSemaphore;
 
 /* USER CODE BEGIN PV */
+#if (CFG_BUTTON_SUPPORTED == 1)
+/* Button management */
+static ButtonDesc_t buttonDesc[BUTTON_NB_MAX];
+
+/* PB1_BUTTON_PUSHED_TASK related resources */
+TX_THREAD PB1_BUTTON_PUSHED_Thread;
+TX_SEMAPHORE PB1_BUTTON_PUSHED_Thread_Sem;
+
+/* PB2_BUTTON_PUSHED_TASK related resources */
+TX_THREAD PB2_BUTTON_PUSHED_Thread;
+TX_SEMAPHORE PB2_BUTTON_PUSHED_Thread_Sem;
+
+/* PB3_BUTTON_PUSHED_TASK related resources */
+TX_THREAD PB3_BUTTON_PUSHED_Thread;
+TX_SEMAPHORE PB3_BUTTON_PUSHED_Thread_Sem;
+#endif
 
 /* USER CODE END PV */
 
@@ -167,6 +211,16 @@ void ThreadXLowPowerUserExit( void );
 #endif
 
 /* USER CODE BEGIN PFP */
+#if (CFG_LED_SUPPORTED == 1)
+static void Led_Init(void);
+#endif
+#if (CFG_BUTTON_SUPPORTED == 1)
+static void Button_Init(void);
+static void Button_TriggerActions(void *arg);
+static void APPE_Button1Action_Entry(unsigned long thread_input);
+static void APPE_Button2Action_Entry(unsigned long thread_input);
+static void APPE_Button3Action_Entry(unsigned long thread_input);
+#endif
 /* USER CODE END PFP */
 
 /* External variables --------------------------------------------------------*/
@@ -223,6 +277,12 @@ uint32_t MX_APPE_Init(void *p_param)
   FD_SetStatus (FD_FLASHACCESS_SYSTEM, LL_FLASH_ENABLE);
 
   /* USER CODE BEGIN APPE_Init_1 */
+#if (CFG_LED_SUPPORTED == 1)
+  Led_Init();
+#endif
+#if (CFG_BUTTON_SUPPORTED == 1)
+  Button_Init();
+#endif
 
   /* USER CODE END APPE_Init_1 */
 
@@ -250,6 +310,56 @@ uint32_t MX_APPE_Init(void *p_param)
 }
 
 /* USER CODE BEGIN FD */
+#if (CFG_BUTTON_SUPPORTED == 1)
+/**
+ * @brief   Indicate if the selected button was pressedn during a 'long time' or not.
+ *
+ * @param   btnIdx    Button to test, listed in enum Button_TypeDef
+ * @return  '1' if pressed during a 'long time', else '0'.
+ */
+uint8_t APPE_ButtonIsLongPressed(uint16_t btnIdx)
+{
+  uint8_t pressStatus;
+
+  if ( btnIdx < BUTTON_NB_MAX )
+  {
+    pressStatus = buttonDesc[btnIdx].longPressed;
+  }
+  else
+  {
+    pressStatus = 0;
+  }
+
+  return pressStatus;
+}
+
+/**
+ * @brief  Action of button 1 when pressed, to be implemented by user.
+ * @param  None
+ * @retval None
+ */
+__WEAK void APPE_Button1Action(void)
+{
+}
+
+/**
+ * @brief  Action of button 2 when pressed, to be implemented by user.
+ * @param  None
+ * @retval None
+ */
+__WEAK void APPE_Button2Action(void)
+{
+}
+
+/**
+ * @brief  Action of button 3 when pressed, to be implemented by user.
+ * @param  None
+ * @retval None
+ */
+__WEAK void APPE_Button3Action(void)
+{
+}
+#endif
 
 /* USER CODE END FD */
 
@@ -549,6 +659,157 @@ static void BPKA_Task_Entry(ULONG lArgument)
 }
 
 /* USER CODE BEGIN FD_LOCAL_FUNCTIONS */
+#if (CFG_LED_SUPPORTED == 1)
+static void Led_Init( void )
+{
+  /* Leds Initialization */
+  BSP_LED_Init(LED_BLUE);
+  BSP_LED_Init(LED_GREEN);
+  BSP_LED_Init(LED_RED);
+
+  BSP_LED_On(LED_GREEN);
+
+  return;
+}
+#endif
+
+#if (CFG_BUTTON_SUPPORTED == 1)
+static void Button_Init( void )
+{
+  /* Button Initialization */
+  buttonDesc[B1].button = B1;
+  buttonDesc[B2].button = B2;
+  buttonDesc[B3].button = B3;
+  BSP_PB_Init(B1, BUTTON_MODE_EXTI);
+  BSP_PB_Init(B2, BUTTON_MODE_EXTI);
+  BSP_PB_Init(B3, BUTTON_MODE_EXTI);
+
+  CHAR * pStack;
+
+  /* Register tasks associated to buttons */
+  if (tx_byte_allocate(pBytePool, (void **) &pStack, PB1_BUTTON_PUSHED_TASK_STACK_SIZE,TX_NO_WAIT) != TX_SUCCESS)
+  {
+    Error_Handler();
+  }
+  if (tx_semaphore_create(&PB1_BUTTON_PUSHED_Thread_Sem, "PB1_BUTTON_PUSHED_Thread_Sem", 0)!= TX_SUCCESS )
+  {
+    Error_Handler();
+  }
+  if (tx_thread_create(&PB1_BUTTON_PUSHED_Thread, "PB1_BUTTON_PUSHED Thread", APPE_Button1Action_Entry, 0,
+                         pStack, PB1_BUTTON_PUSHED_TASK_STACK_SIZE,
+                         PB1_BUTTON_PUSHED_TASK_PRIO, PB1_BUTTON_PUSHED_TASK_PREEM_TRES,
+                         TX_NO_TIME_SLICE, TX_AUTO_START) != TX_SUCCESS)
+  {
+    Error_Handler();
+  }
+
+  if (tx_byte_allocate(pBytePool, (void **) &pStack, PB2_BUTTON_PUSHED_TASK_STACK_SIZE,TX_NO_WAIT) != TX_SUCCESS)
+  {
+    Error_Handler();
+  }
+  if (tx_semaphore_create(&PB2_BUTTON_PUSHED_Thread_Sem, "PB2_BUTTON_PUSHED_Thread_Sem", 0)!= TX_SUCCESS )
+  {
+    Error_Handler();
+  }
+  if (tx_thread_create(&PB2_BUTTON_PUSHED_Thread, "PB2_BUTTON_PUSHED Thread", APPE_Button2Action_Entry, 0,
+                         pStack, PB2_BUTTON_PUSHED_TASK_STACK_SIZE,
+                         PB2_BUTTON_PUSHED_TASK_PRIO, PB2_BUTTON_PUSHED_TASK_PREEM_TRES,
+                         TX_NO_TIME_SLICE, TX_AUTO_START) != TX_SUCCESS)
+  {
+    Error_Handler();
+  }
+
+  if (tx_byte_allocate(pBytePool, (void **) &pStack, PB3_BUTTON_PUSHED_TASK_STACK_SIZE,TX_NO_WAIT) != TX_SUCCESS)
+  {
+    Error_Handler();
+  }
+  if (tx_semaphore_create(&PB3_BUTTON_PUSHED_Thread_Sem, "PB3_BUTTON_PUSHED_Thread_Sem", 0)!= TX_SUCCESS )
+  {
+    Error_Handler();
+  }
+  if (tx_thread_create(&PB3_BUTTON_PUSHED_Thread, "PB3_BUTTON_PUSHED Thread", APPE_Button3Action_Entry, 0,
+                         pStack, PB3_BUTTON_PUSHED_TASK_STACK_SIZE,
+                         PB3_BUTTON_PUSHED_TASK_PRIO, PB3_BUTTON_PUSHED_TASK_PREEM_TRES,
+                         TX_NO_TIME_SLICE, TX_AUTO_START) != TX_SUCCESS)
+  {
+    Error_Handler();
+  }
+
+  /* Create timers to detect button long press (one for each button) */
+  Button_TypeDef buttonIndex;
+  for ( buttonIndex = B1; buttonIndex < BUTTON_NB_MAX; buttonIndex++ )
+  {
+    UTIL_TIMER_Create( &buttonDesc[buttonIndex].longTimerId,
+                       0,
+                       UTIL_TIMER_ONESHOT,
+                       &Button_TriggerActions,
+                       &buttonDesc[buttonIndex] );
+  }
+
+  return;
+}
+
+static void Button_TriggerActions(void *arg)
+{
+  ButtonDesc_t *p_buttonDesc = arg;
+
+  p_buttonDesc->longPressed = BSP_PB_GetState(p_buttonDesc->button);
+
+  LOG_INFO_APP("Button %d pressed\n", (p_buttonDesc->button + 1));
+  switch (p_buttonDesc->button)
+  {
+    case B1:
+      tx_semaphore_put(&PB1_BUTTON_PUSHED_Thread_Sem);
+      break;
+    case B2:
+      tx_semaphore_put(&PB2_BUTTON_PUSHED_Thread_Sem);
+      break;
+    case B3:
+      tx_semaphore_put(&PB3_BUTTON_PUSHED_Thread_Sem);
+      break;
+    default:
+      break;
+  }
+
+  return;
+}
+
+static void APPE_Button1Action_Entry(unsigned long thread_input)
+{
+  (void)(thread_input);
+
+  while(1)
+  {
+    tx_semaphore_get(&PB1_BUTTON_PUSHED_Thread_Sem, TX_WAIT_FOREVER);
+    APPE_Button1Action();
+    tx_thread_relinquish();
+  }
+}
+
+static void APPE_Button2Action_Entry(unsigned long thread_input)
+{
+  (void)(thread_input);
+
+  while(1)
+  {
+    tx_semaphore_get(&PB2_BUTTON_PUSHED_Thread_Sem, TX_WAIT_FOREVER);
+    APPE_Button2Action();
+    tx_thread_relinquish();
+  }
+}
+
+static void APPE_Button3Action_Entry(unsigned long thread_input)
+{
+  (void)(thread_input);
+
+  while(1)
+  {
+    tx_semaphore_get(&PB3_BUTTON_PUSHED_Thread_Sem, TX_WAIT_FOREVER);
+    APPE_Button3Action();
+    tx_thread_relinquish();
+  }
+}
+#endif
 
 /* USER CODE END FD_LOCAL_FUNCTIONS */
 
@@ -701,5 +962,14 @@ void ThreadXLowPowerUserExit( void )
 }
 
 /* USER CODE BEGIN FD_WRAP_FUNCTIONS */
+#if (CFG_BUTTON_SUPPORTED == 1)
+void BSP_PB_Callback(Button_TypeDef Button)
+{
+  buttonDesc[Button].longPressed = 0;
+  UTIL_TIMER_StartWithPeriod(&buttonDesc[Button].longTimerId, BUTTON_LONG_PRESS_THRESHOLD_MS);
+
+  return;
+}
+#endif
 
 /* USER CODE END FD_WRAP_FUNCTIONS */
