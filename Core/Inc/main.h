@@ -58,7 +58,7 @@ extern "C" {
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 void MX_RTC_Init(void);
-
+void USER_I2C_Init(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */
@@ -78,7 +78,7 @@ void MX_RTC_Init(void);
 #define DEBUG_JTMS_SWDIO_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
-
+extern  I2C_HandleTypeDef hi2c1;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "app_threadx.h"
 #include "main.h"
+#include "stm32_u8g2.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -80,7 +81,10 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void USER_I2C_Init(void)
+{
+  MX_I2C1_Init();
+}
 /* USER CODE END 0 */
 
 /**
@@ -127,10 +131,11 @@ int main(void)
   MX_RNG_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
+  u8g2_t u8g2; // a structure which will contain all the data for one display
+  u8g2Init(&u8g2);
   /* USER CODE END 2 */
 
-  MX_ThreadX_Init();
+  // MX_ThreadX_Init();
 
   /* Initialize leds */
   BSP_LED_Init(LED_BLUE);
@@ -150,7 +155,18 @@ int main(void)
   {
 
     /* USER CODE END WHILE */
+    u8g2_SendBuffer(&u8g2);
+    u8g2_DrawBox(&u8g2,0,0,20,20);
+    u8g2_DrawBox(&u8g2,20,20,20,20);
+    u8g2_SendBuffer(&u8g2);
+    u8g2_DrawFrame(&u8g2,10,40,20,20);
+    u8g2_SendBuffer(&u8g2);
+    u8g2_SetFont(&u8g2,u8g2_font_DigitalDiscoThin_tf);
+    u8g2_DrawStr(&u8g2,30,10,"Hello World");
+    u8g2_SendBuffer(&u8g2);
 
+
+    HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
