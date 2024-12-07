@@ -32,6 +32,7 @@
 /* USER CODE END Includes */
 
 /* External variables --------------------------------------------------------*/
+extern I2C_HandleTypeDef hi2c1;
 extern RAMCFG_HandleTypeDef hramcfg_SRAM1;
 extern RNG_HandleTypeDef hrng;
 
@@ -63,6 +64,7 @@ void MX_StandbyExit_PeripharalInit(void)
     assert_param(0);
   }
 
+  memset(&hi2c1, 0, sizeof(hi2c1));
   memset(&hramcfg_SRAM1, 0, sizeof(hramcfg_SRAM1));
   memset(&hrng, 0, sizeof(hrng));
 
