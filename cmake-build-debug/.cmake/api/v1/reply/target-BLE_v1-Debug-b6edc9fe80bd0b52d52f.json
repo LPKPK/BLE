@@ -1,0 +1,2312 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "BLE_v1.elf"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"target_include_directories",
+			"target_sources"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"cmake/stm32cubemx/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 38,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 70,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 317,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 58,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 49,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -Wextra -Wpedantic -fdata-sections -ffunction-sections -O0 -g3 -g -std=gnu11 -fdiagnostics-color=always"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "BLE"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "DEBUG"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "STM32WBA52xx"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "TX_SINGLE_MODE_NON_SECURE=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "USE_FULL_LL_DRIVER"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "USE_HAL_DRIVER"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "USE_NUCLEO_64"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/STM32_WPAN/App"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/Drivers/u8g2"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Core/Inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Interfaces"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/baes"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/Flash"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/MemoryManager"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/Nvm"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/RTDebug"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/RFControl"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Modules/SerialCmdInterpreter"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Config/Log"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Config/LowPower"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Config/Debug_GPIO"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Config/Flash"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Config/ADC_Ctrl"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../System/Config/CRC_Ctrl"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../STM32_WPAN/App"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../STM32_WPAN/Target"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../AZURE_RTOS/App"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Drivers/STM32WBAxx_HAL_Driver/Inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Drivers/STM32WBAxx_HAL_Driver/Inc/Legacy"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Utilities/trace/adv_trace"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Utilities/misc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Utilities/tim_serv"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Utilities/lpm/tiny_lpm"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/link_layer/ll_cmd_lib/config/ble_full"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/ble/svc/Src"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/threadx/common/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Drivers/BSP/STM32WBAxx_Nucleo"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32WBAxx/Include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/link_layer/ll_cmd_lib/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/link_layer/ll_cmd_lib/inc/_40nm_reg_files"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/link_layer/ll_cmd_lib/inc/ot_inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/link_layer/ll_sys/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/ble"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/ble/stack/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/ble/stack/include/auto"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/STM32_WPAN/ble/svc/Inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/threadx/ports/cortex_m33/gnu/inc"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Middlewares/ST/threadx/utility/low_power"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "D:/lyupe/pk_ws/BLE_v2/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126,
+				127,
+				128,
+				129,
+				130,
+				131,
+				132,
+				133,
+				134,
+				135,
+				136,
+				137,
+				138,
+				139,
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				149,
+				150,
+				151,
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159,
+				160,
+				161,
+				162,
+				163,
+				164,
+				165,
+				166,
+				167,
+				168,
+				169,
+				170,
+				171,
+				172,
+				173,
+				174,
+				175,
+				176,
+				177,
+				178,
+				179,
+				180,
+				181,
+				182,
+				183,
+				184,
+				185,
+				186,
+				187,
+				188,
+				189,
+				190,
+				191,
+				192,
+				193,
+				194,
+				195,
+				196,
+				197,
+				198,
+				199,
+				200,
+				201,
+				202,
+				203,
+				204,
+				205,
+				206,
+				207,
+				208,
+				209,
+				210,
+				211,
+				212,
+				213,
+				214,
+				215,
+				216,
+				217,
+				218,
+				219,
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				228,
+				229,
+				230,
+				231,
+				232,
+				233,
+				234,
+				235,
+				236,
+				237,
+				238,
+				239,
+				240,
+				241,
+				242,
+				243,
+				244
+			]
+		}
+	],
+	"id" : "BLE_v1::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard  -Wall -Wextra -Wpedantic -fdata-sections -ffunction-sections -O0 -g3 -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-LD:\\lyupe\\pk_ws\\BLE_v2\\cmake\\stm32cubemx\\..\\..\\Middlewares\\ST\\STM32_WPAN\\link_layer\\ll_cmd_lib\\lib",
+				"role" : "libraryPath"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-LD:\\lyupe\\pk_ws\\BLE_v2\\cmake\\stm32cubemx\\..\\..\\Middlewares\\ST\\STM32_WPAN\\ble\\stack\\lib",
+				"role" : "libraryPath"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-l:LinkLayer_BLE_Full_lib.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-l:stm32wba_ble_stack_full.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "BLE_v1",
+	"nameOnDisk" : "BLE_v1.elf",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72,
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				80,
+				81,
+				82,
+				83,
+				84,
+				85,
+				86,
+				87,
+				88,
+				89,
+				90,
+				91,
+				92,
+				93,
+				94,
+				95,
+				96,
+				97,
+				98,
+				99,
+				100,
+				101,
+				102,
+				103,
+				104,
+				105,
+				106,
+				107,
+				108,
+				109,
+				110,
+				111,
+				112,
+				113,
+				114,
+				115,
+				116,
+				117,
+				118,
+				119,
+				120,
+				121,
+				122,
+				123,
+				124,
+				125,
+				126,
+				127,
+				128,
+				129,
+				130,
+				131,
+				132,
+				133,
+				134,
+				135,
+				136,
+				137,
+				138,
+				139,
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147,
+				148,
+				149,
+				150,
+				151,
+				152,
+				153,
+				154,
+				155,
+				156,
+				157,
+				158,
+				159,
+				160,
+				161,
+				162,
+				163,
+				164,
+				165,
+				166,
+				167,
+				168,
+				169,
+				170,
+				171,
+				172,
+				173,
+				174,
+				175,
+				176,
+				177,
+				178,
+				179,
+				180,
+				181,
+				182,
+				183,
+				184,
+				185,
+				186,
+				187,
+				188,
+				189,
+				190,
+				191,
+				192,
+				193,
+				194,
+				195,
+				196,
+				197,
+				198,
+				199,
+				200,
+				201,
+				202,
+				203,
+				204,
+				205,
+				206,
+				207,
+				208,
+				209,
+				210,
+				211,
+				212,
+				213,
+				214,
+				215,
+				216,
+				217,
+				218,
+				219,
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				228,
+				229,
+				230,
+				231,
+				232,
+				233,
+				234,
+				235,
+				236,
+				237,
+				238,
+				239,
+				240,
+				241,
+				242,
+				243,
+				244
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/App/dis.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/App/dis_app.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/App/hrs.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 6,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/App/hrs_app.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/main.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32wbaxx_it.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32wbaxx_hal_msp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_cortex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_i2c.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_i2c_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_rcc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_rcc_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_flash.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_flash_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_gpio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_dma.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_dma_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_exti.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_pwr.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_pwr_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_gtzc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_icache.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_hsem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_uart.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_uart_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/system_stm32wbaxx.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/app_entry.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/app_threadx.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32wbaxx_hal_timebase_tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/adc_ctrl.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/app_sys.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/ble_timer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/otp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/scm.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/stm_list.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/baes/baes_cmac.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/baes/baes_ecb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/MemoryManager/advanced_memory_manager.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/MemoryManager/stm32_mm.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/Nvm/nvm_emul.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/RTDebug/RTDebug.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/RTDebug/RTDebug_dtb.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/RFControl/rf_antenna_switch.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/Flash/flash_driver.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/Flash/flash_manager.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/Flash/rf_timing_synchro.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Modules/Flash/simple_nvm_arbiter.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/hw_aes.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/hw_otp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/hw_pka.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/hw_rng.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/pka_p256.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/stm32_lpm_if.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/timer_if.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Interfaces/usart_if.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Config/LowPower/user_low_power_config.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "System/Config/Debug_GPIO/app_debug.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/App/app_ble.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/Target/bleplat.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/Target/power_table.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/Target/linklayer_plat.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/Target/bpka.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/Target/ll_sys_if.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "STM32_WPAN/Target/host_stack_if.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "AZURE_RTOS/App/app_azure_rtos.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_tim_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_adc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_adc_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_crc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_crc_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_ramcfg.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_rng.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_rng_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_rtc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Drivers/STM32WBAxx_HAL_Driver/Src/stm32wbaxx_hal_rtc_ex.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/STM32_WPAN/ble/svc/Src/svc_ctl.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/STM32_WPAN/link_layer/ll_sys/src/ll_sys_cs.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/STM32_WPAN/link_layer/ll_sys/src/ll_sys_dp_slp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/STM32_WPAN/link_layer/ll_sys/src/ll_sys_intf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/STM32_WPAN/link_layer/ll_sys/src/ll_sys_startup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_initialize_high_level.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_initialize_kernel_enter.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_initialize_kernel_setup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_stack_error_handler.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_stack_error_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_system_resume.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_allocate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_pool_cleanup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_pool_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_pool_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_pool_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_pool_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_pool_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_block_release.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_allocate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_cleanup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_pool_search.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_byte_release.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_cleanup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_set.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_event_flags_set_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_cleanup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_priority_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_mutex_put.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_cleanup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_flush.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_front_send.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_receive.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_send.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_queue_send_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_ceiling_put.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_cleanup.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_put.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_semaphore_put_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_entry_exit_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_identify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_preemption_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_priority_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_relinquish.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_reset.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_resume.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_shell_entry.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_sleep.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_stack_analyze.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_suspend.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_system_preempt_check.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_system_suspend.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_terminate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_time_slice.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_time_slice_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_timeout.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_thread_wait_abort.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_time_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_time_set.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_block_allocate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_block_pool_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_block_pool_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_block_pool_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_block_pool_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_block_release.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_byte_allocate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_byte_pool_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_byte_pool_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_byte_pool_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_byte_pool_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_byte_release.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_event_flags_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_event_flags_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_event_flags_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_event_flags_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_event_flags_set.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_event_flags_set_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_mutex_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_mutex_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_mutex_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_mutex_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_mutex_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_mutex_put.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_flush.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_front_send.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_receive.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_send.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_queue_send_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_ceiling_put.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_prioritize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_put.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_semaphore_put_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_entry_exit_notify.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_preemption_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_priority_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_relinquish.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_reset.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_resume.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_suspend.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_terminate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_time_slice_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_thread_wait_abort.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_activate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_deactivate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_expiration_process.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_initialize.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_system_activate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_system_deactivate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/tx_timer_thread_entry.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_timer_create.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_timer_activate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_timer_change.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_timer_deactivate.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_timer_delete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Middlewares/ST/threadx/common/src/txe_timer_info_get.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/trace/adv_trace/stm32_adv_trace.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/misc/stm32_mem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/misc/stm32_systime.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/misc/stm32_tiny_sscanf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/misc/stm32_tiny_vsnprintf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/tim_serv/stm32_timer.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Utilities/lpm/tiny_lpm/stm32_lpm.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}
