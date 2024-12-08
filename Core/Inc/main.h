@@ -58,7 +58,7 @@ extern "C" {
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 void MX_RTC_Init(void);
-void USER_I2C_Init(void);
+void U8G2_I2C_Init(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

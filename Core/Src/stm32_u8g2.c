@@ -3,9 +3,6 @@
 //
 #include "stm32_u8g2.h"
 
-
-void USER_I2C_Init(void);
-
 uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
 {
     /* u8g2/u8x8 will never send more than 32 bytes between START_TRANSFER and END_TRANSFER */
@@ -18,7 +15,7 @@ uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
     case U8X8_MSG_BYTE_INIT:
     {
         /* add your custom code to init i2c subsystem */
-        USER_I2C_Init(); //I2C初始化
+        U8G2_I2C_Init(); //I2C初始化
     }
     break;
 

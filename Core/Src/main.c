@@ -81,10 +81,35 @@ static void MX_I2C1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void USER_I2C_Init(void)
+void U8G2_I2C_Init(void)
 {
   MX_I2C1_Init();
 }
+
+void USER_U8G2_Art(u8g2_t u8g2)
+{
+  // u8g2_DrawCircle(&u8g2, 64, 32, 30, U8G2_DRAW_ALL);
+  // u8g2_DrawBox(&u8g2,20,20,20,20);
+  // u8g2_SendBuffer(&u8g2);
+  // u8g2_DrawFrame(&u8g2,10,40,20,20);
+  // u8g2_SendBuffer(&u8g2);
+
+  u8g2_SetFont(&u8g2, u8g2_font_battery19_tn);
+  char a[] = {0x33, '\0'};    // expects a null-terminated string
+  u8g2_SetFontDirection(&u8g2, 3);
+  u8g2_DrawStr(&u8g2,80,10, a);
+  u8g2_SendBuffer(&u8g2);
+
+  // Set the FontDirection back to 0
+  u8g2_SetFontDirection(&u8g2, 0);
+  // DrawStr twice and send buffer together
+  u8g2_SetFont(&u8g2,u8g2_font_DigitalDiscoThin_tf);
+  u8g2_DrawStr(&u8g2,20,40,"Giner");
+  u8g2_SetFont(&u8g2,u8g2_font_7x14_mf);
+  u8g2_DrawStr(&u8g2,10,60,"Get More GRANT");
+  u8g2_SendBuffer(&u8g2);
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -131,11 +156,15 @@ int main(void)
   MX_RNG_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+
   u8g2_t u8g2; // a structure which will contain all the data for one display
   u8g2Init(&u8g2);
+
+  USER_U8G2_Art(u8g2);
+
   /* USER CODE END 2 */
 
-  // MX_ThreadX_Init();
+  MX_ThreadX_Init();
 
   /* Initialize leds */
   BSP_LED_Init(LED_BLUE);
@@ -155,18 +184,7 @@ int main(void)
   {
 
     /* USER CODE END WHILE */
-    u8g2_SendBuffer(&u8g2);
-    u8g2_DrawBox(&u8g2,0,0,20,20);
-    u8g2_DrawBox(&u8g2,20,20,20,20);
-    u8g2_SendBuffer(&u8g2);
-    u8g2_DrawFrame(&u8g2,10,40,20,20);
-    u8g2_SendBuffer(&u8g2);
-    u8g2_SetFont(&u8g2,u8g2_font_DigitalDiscoThin_tf);
-    u8g2_DrawStr(&u8g2,30,10,"Hello World");
-    u8g2_SendBuffer(&u8g2);
 
-
-    HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
